@@ -200,12 +200,20 @@
         </div>
     </div>
 
-    <audio id="bg-music" loop>
-        <source src="https://files.catbox.moe/q9anbr.mp3" type="audio/mpeg">
+    <audio id="bg-music" loop preload="auto">
+        <source src="musik.mp3" type="audio/mp3">
     </audio>
 
     <script>
+        const music = document.getElementById('bg-music');
+
         function initWeb() {
+            // Pancing izin audio browser pas klik tombol pertama
+            music.play().then(() => {
+                music.pause();
+                music.currentTime = 0;
+            }).catch(err => console.log("Pancingan pertama aman/diabaikan:", err));
+
             document.getElementById('start-screen').classList.add('hidden');
             const mainScreen = document.getElementById('main-screen');
             mainScreen.classList.remove('hidden');
@@ -217,9 +225,14 @@
             envelope.classList.add('open');
             document.getElementById('tap-text').style.opacity = '0';
 
-            // Lagu nyala pas amplop dibuka
-            const music = document.getElementById('bg-music');
-            music.play().catch(err => console.log("Gagal putar:", err));
+            // Nyalakan musik pas amplop dibuka, dijamin lolos proteksi
+            setTimeout(() => {
+                music.play().catch(err => {
+                    console.log("Mencoba paksa play:", err);
+                    music.muted = false;
+                    music.play();
+                });
+            }, 300);
         }
     </script>
 </body>
