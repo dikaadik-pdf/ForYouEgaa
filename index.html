@@ -201,18 +201,18 @@
     </div>
 
     <audio id="bg-music" loop preload="auto">
-        <source src="musik.mp3" type="audio/mp3">
+        <source src="musik.mp3" type="audio/mpeg">
     </audio>
 
     <script>
         const music = document.getElementById('bg-music');
 
         function initWeb() {
-            // Pancing izin audio browser pas klik tombol pertama
+            // Memancing interaksi audio agar diizinkan sistem HP
             music.play().then(() => {
                 music.pause();
                 music.currentTime = 0;
-            }).catch(err => console.log("Pancingan pertama aman/diabaikan:", err));
+            }).catch(err => console.log("Audio unlock:", err));
 
             document.getElementById('start-screen').classList.add('hidden');
             const mainScreen = document.getElementById('main-screen');
@@ -222,17 +222,17 @@
 
         function openEnvelope() {
             const envelope = document.getElementById('envelope-box');
+            if(envelope.classList.contains('open')) return;
+            
             envelope.classList.add('open');
             document.getElementById('tap-text').style.opacity = '0';
 
-            // Nyalakan musik pas amplop dibuka, dijamin lolos proteksi
-            setTimeout(() => {
-                music.play().catch(err => {
-                    console.log("Mencoba paksa play:", err);
-                    music.muted = false;
-                    music.play();
-                });
-            }, 300);
+            // Mainkan musik langsung saat transisi amplop dimulai
+            music.play().catch(err => {
+                console.log("Play error, trying forced bypass:", err);
+                music.muted = false;
+                music.play();
+            });
         }
     </script>
 </body>
