@@ -3,246 +3,432 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surat Spesial Buat Wibi</title>
+    <title>Buat Wibi</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
+
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:        #1a1f2e;
+            --bg2:       #222840;
+            --surface:   #ffffff;
+            --env:       #2c3450;
+            --env-dark:  #1e2438;
+            --env-flap:  #3a4260;
+            --ink:       #1a1f2e;
+            --ink-soft:  #64748b;
+            --accent:    #4f7fe8;
+            --accent2:   #6c9cf5;
+            --line:      #e8edf5;
+            --paper:     #f8fafd;
         }
 
         body {
-            background: linear-gradient(135deg, #fef2f2, #fce7f3, #e0f2fe);
+            background: var(--bg);
+            background-image:
+                radial-gradient(ellipse at 15% 15%, rgba(79,127,232,0.12) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 85%, rgba(79,127,232,0.08) 0%, transparent 55%);
             min-height: 100vh;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'DM Sans', sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            position: relative;
         }
 
-        .wrapper {
+        /* ─── SCREEN: START ─── */
+        #start-screen {
             text-align: center;
-            width: 100%;
-            max-width: 500px;
-            padding: 20px;
-            z-index: 10;
+            animation: fadeUp 0.7s ease forwards;
         }
 
-        /* Tombol Start Glowing & Berdenyut */
-        .start-btn {
-            background: linear-gradient(135deg, #ec4899, #db2777);
-            color: white;
-            border: none;
-            padding: 16px 40px;
-            font-size: 1.1rem;
+        .start-eyebrow {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent2);
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+
+        .start-title {
+            font-family: 'Lora', serif;
+            font-size: 1.5rem;
             font-weight: 600;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(219, 39, 119, 0.4);
-            transition: all 0.3s ease;
-            animation: pulse 2s infinite;
-            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            margin-bottom: 8px;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 10px 30px rgba(219, 39, 119, 0.4); }
-            50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(219, 39, 119, 0.6); }
-            100% { transform: scale(1); box-shadow: 0 10px 30px rgba(219, 39, 119, 0.4); }
+        .start-sub {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 36px;
+        }
+
+        .start-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 13px 32px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(79,127,232,0.4);
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
         }
 
         .start-btn:hover {
-            transform: translateY(-3px) scale(1.03);
+            background: var(--accent2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(79,127,232,0.5);
         }
 
-        /* Container Amplop */
-        .envelope-container {
+        /* ─── SCREEN: ENVELOPE ─── */
+        #envelope-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .env-hint {
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            transition: opacity 0.4s;
+        }
+
+        .envelope-wrap {
             position: relative;
-            width: 320px;
-            height: 220px;
-            margin: 60px auto;
+            width: 300px;
+            height: 200px;
             cursor: pointer;
-            perspective: 1000px;
-            display: inline-block;
+            transition: transform 0.2s;
         }
 
-        .envelope {
+        .envelope-wrap:hover { transform: translateY(-4px); }
+
+        .env-body {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: #f472b6;
-            border-radius: 0 0 12px 12px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-            transition: transform 0.5s ease;
+            inset: 0;
+            background: var(--env);
+            border-radius: 4px 4px 6px 6px;
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.05),
+                0 16px 48px rgba(0,0,0,0.5);
         }
 
-        /* Penutup Amplop Atas */
-        .envelope::before {
-            content: '';
+        .env-fold-l {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 160px solid transparent;
-            border-right: 160px solid transparent;
-            border-top: 110px solid #db2777;
-            transform-origin: top;
-            transition: transform 0.5s ease 0.4s;
+            bottom: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 150px solid var(--env-dark);
+            border-top: 100px solid transparent;
+            z-index: 2;
+        }
+
+        .env-fold-r {
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 0; height: 0;
+            border-right: 150px solid var(--env-dark);
+            border-top: 100px solid transparent;
+            z-index: 2;
+        }
+
+        .env-flap {
+            position: absolute;
+            top: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid var(--env-flap);
+            transform-origin: top center;
+            transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
             z-index: 3;
         }
 
-        /* Lipatan Depan Amplop */
-        .envelope-front {
+        .env-stamp {
             position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 160px solid #fce7f3;
-            border-right: 160px solid #fce7f3;
-            border-bottom: 110px solid #fbcfe8;
-            top: 110px;
-            z-index: 4;
-            border-radius: 0 0 12px 12px;
-        }
-
-        .envelope-front::before {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 160px solid #fbcfe8;
-            border-top: 110px solid transparent;
-            left: -160px;
-            top: -110px;
-        }
-
-        .envelope-front::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-right: 160px solid #fbcfe8;
-            border-top: 110px solid transparent;
-            right: -160px;
-            top: -110px;
-        }
-
-        /* Kertas Surat Premium */
-        .letter {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            width: 290px;
-            height: 190px;
-            background: #ffffff linear-gradient(rgba(24df,243,247,0) 96%, #f3f4f6 96%);
-            background-size: 100% 24px;
-            border-radius: 8px;
-            padding: 25px 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            z-index: 2;
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            top: 14px; right: 18px;
+            width: 34px; height: 42px;
+            border: 2px solid rgba(255,255,255,0.12);
+            border-radius: 2px;
             display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
             align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            z-index: 4;
+            opacity: 0.45;
         }
 
-        .letter h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            color: #be185d;
-            margin-bottom: 12px;
-            font-weight: 600;
+        .env-address {
+            position: absolute;
+            bottom: 26px; left: 24px;
+            z-index: 4;
         }
 
-        .letter p {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.4rem;
-            color: #4b5563;
-            line-height: 1.4;
-            text-align: center;
+        .env-address .to {
+            font-size: 0.62rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 3px;
         }
 
-        /* Efek Animasi Kebuka */
-        .envelope-container.open .envelope::before {
+        .env-address .name {
+            font-family: 'Lora', serif;
+            font-size: 1rem;
+            font-style: italic;
+            color: rgba(255,255,255,0.65);
+        }
+
+        .env-seal {
+            position: absolute;
+            bottom: -10px; left: 50%;
+            transform: translateX(-50%);
+            width: 28px; height: 28px;
+            background: var(--accent);
+            border-radius: 50%;
+            z-index: 5;
+            box-shadow: 0 0 0 3px var(--bg), 0 4px 12px rgba(79,127,232,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 11px;
+            transition: opacity 0.3s;
+        }
+
+        /* Open animation */
+        .envelope-wrap.opening .env-flap {
             transform: rotateX(180deg);
             z-index: 1;
-            transition: transform 0.5s ease;
         }
 
-        .envelope-container.open .letter {
-            transform: translateY(-140px);
-            z-index: 5;
-            height: 240px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            transition: transform 0.8s ease 0.4s, height 0.3s ease 1.2s;
-        }
+        .envelope-wrap.opening .env-seal { opacity: 0; }
 
-        .hidden {
-            display: none !important;
-        }
-
-        .fade-in {
-            animation: fadeIn 1s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .instruction {
-            margin-top: 30px;
-            color: #be185d;
-            font-size: 0.95rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            transition: opacity 0.3s ease;
-        }
-
-        /* CSS Efek Hati Melayang */
-        .heart {
-            position: absolute;
-            color: #f472b6;
-            font-size: 20px;
+        .envelope-wrap.opening {
+            animation: envOut 0.4s ease 0.6s forwards;
             pointer-events: none;
-            animation: floatUp 4s linear infinite;
-            opacity: 0;
-            z-index: 1;
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        @keyframes envOut {
+            to { opacity: 0; transform: translateY(8px) scale(0.96); }
+        }
+
+        /* ─── SCREEN: LETTER ─── */
+        #letter-screen {
+            width: 100%;
+            max-width: 480px;
+            padding: 24px 20px 48px;
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        .letter-card {
+            background: var(--paper);
+            border-radius: 8px;
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.06),
+                0 24px 64px rgba(0,0,0,0.55);
+            overflow: hidden;
+        }
+
+        .letter-topbar {
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+        }
+
+        .letter-content {
+            padding: 28px 28px 32px;
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 27px,
+                var(--line) 27px,
+                var(--line) 28px
+            );
+            background-position: 0 40px;
+        }
+
+        .letter-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 22px;
+        }
+
+        .letter-to-label {
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 3px;
+        }
+
+        .letter-to-name {
+            font-family: 'Lora', serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .letter-date {
+            font-size: 0.73rem;
+            color: var(--ink-soft);
+            text-align: right;
+            margin-top: 2px;
+        }
+
+        .letter-divider {
+            width: 36px;
+            height: 2px;
+            background: var(--accent);
+            margin-bottom: 20px;
+            border-radius: 2px;
+        }
+
+        .letter-salutation {
+            font-family: 'Lora', serif;
+            font-size: 0.98rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 14px;
+        }
+
+        .letter-body {
+            font-family: 'Lora', serif;
+            font-size: 0.93rem;
+            line-height: 1.8;
+            color: #2d3748;
+        }
+
+        .letter-body p + p {
+            margin-top: 14px;
+        }
+
+        .letter-sign-wrap {
+            margin-top: 28px;
+            padding-top: 18px;
+            border-top: 1px solid var(--line);
+        }
+
+        .letter-sign-label {
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 4px;
+        }
+
+        .letter-sign {
+            font-family: 'Lora', serif;
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .back-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.13);
+            color: rgba(255,255,255,0.4);
+            padding: 9px 22px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem;
+            letter-spacing: 0.06em;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .back-btn:hover {
+            border-color: rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.65);
+        }
+
+        /* ─── Utils ─── */
+        .hidden { display: none !important; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <div id="heart-container"></div>
+    <!-- Screen 1: Start -->
+    <div id="start-screen">
+        <p class="start-eyebrow">Ada pesan untukmu</p>
+        <h1 class="start-title">Buat Wibi</h1>
+        <p class="start-sub">Klik untuk membuka kiriman</p>
+        <button class="start-btn" onclick="goToEnvelope()">Buka →</button>
+    </div>
 
-    <div class="wrapper">
-        <div id="start-screen">
-            <button class="start-btn" onclick="initWeb()">Klik Untuk Buka Kiriman ✨</button>
+    <!-- Screen 2: Envelope -->
+    <div id="envelope-screen" class="hidden">
+        <div class="envelope-wrap" id="env-box" onclick="openEnvelope()">
+            <div class="env-body"></div>
+            <div class="env-fold-l"></div>
+            <div class="env-fold-r"></div>
+            <div class="env-flap"></div>
+            <div class="env-stamp">✉</div>
+            <div class="env-address">
+                <div class="to">Kepada</div>
+                <div class="name">Wibi</div>
+            </div>
+            <div class="env-seal">✦</div>
         </div>
+        <p class="env-hint" id="env-hint">Ketuk amplop untuk membuka</p>
+    </div>
 
-        <div id="main-screen" class="hidden">
-            <div class="envelope-container" id="envelope-box" onclick="openEnvelope()">
-                <div class="envelope"></div>
-                <div class="envelope-front"></div>
-                <div class="letter">
-                    <h2>Dear Dedek Wibi guweh,</h2>
-                    <p>Baik-baik ya di sana...<br>Jangan lupa makan, tetep semangat harinya! ❤️</p>
+    <!-- Screen 3: Letter (scrollable) -->
+    <div id="letter-screen" class="hidden">
+        <div class="letter-card">
+            <div class="letter-topbar"></div>
+            <div class="letter-content">
+                <div class="letter-meta">
+                    <div>
+                        <div class="letter-to-label">Kepada</div>
+                        <div class="letter-to-name">Wibi</div>
+                    </div>
+                    <div class="letter-date" id="letter-date"></div>
+                </div>
+                <div class="letter-divider"></div>
+                <p class="letter-salutation">Hey, kamu.</p>
+                <div class="letter-body">
+                    <p>
+                        Baik-baik ya di sana. Jangan lupa makan yang benar dan istirahat yang cukup —
+                        dua hal sederhana yang sering kelewat di tengah hari yang sibuk.
+                    </p>
+                    <p>
+                        Apapun yang lagi kamu hadapi sekarang, tetap semangat ngejalanin harinya.
+                        Nggak semua hal harus diselesaikan sekaligus, satu langkah cukup.
+                    </p>
+                    <p>
+                        Kamu nggak sendirian — ada yang selalu doain yang terbaik buat kamu dari sini. ❤️
+                    </p>
+                </div>
+                <div class="letter-sign-wrap">
+                    <div class="letter-sign-label">Dikirim dari</div>
+                    <div class="letter-sign">Orang yang peduli</div>
                 </div>
             </div>
-            <p class="instruction" id="tap-text">Tap amplopnya buat buka surat ❤️</p>
+        </div>
+        <div class="back-row">
+            <button class="back-btn" onclick="backToEnvelope()">← Kembali</button>
         </div>
     </div>
 
@@ -253,55 +439,42 @@
     <script>
         const music = document.getElementById('bg-music');
 
-        function initWeb() {
-            music.play().then(() => {
-                music.pause();
-                music.currentTime = 0;
-            }).catch(err => console.log("Audio unlocked:", err));
+        const d = new Date();
+        document.getElementById('letter-date').textContent =
+            d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 
-            document.getElementById('start-screen').classList.add('hidden');
-            const mainScreen = document.getElementById('main-screen');
-            mainScreen.classList.remove('hidden');
-            mainScreen.classList.add('fade-in');
+        function show(id) {
+            ['start-screen','envelope-screen','letter-screen'].forEach(s => {
+                document.getElementById(s).classList.add('hidden');
+            });
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function goToEnvelope() {
+            show('envelope-screen');
         }
 
         function openEnvelope() {
-            const envelope = document.getElementById('envelope-box');
-            if(envelope.classList.contains('open')) return;
-            
-            envelope.classList.add('open');
-            document.getElementById('tap-text').style.opacity = '0';
+            const env = document.getElementById('env-box');
+            if (env.classList.contains('opening')) return;
 
-            // Nyalakan musik pas amplop diklik
-            music.play().catch(err => {
-                music.muted = false;
-                music.play();
-            });
+            document.getElementById('env-hint').style.opacity = '0';
+            env.classList.add('opening');
 
-            // Mulai munculin efek hati berjatuhan setelah amplop dibuka
-            setInterval(createHeart, 300);
+            music.play().catch(() => { music.muted = false; music.play(); });
+
+            setTimeout(() => {
+                show('letter-screen');
+                window.scrollTo(0, 0);
+            }, 1050);
         }
 
-        // Fungsi pembuat efek hati melayang secara acak
-        function createHeart() {
-            const container = document.getElementById('heart-container');
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            
-            // Variasi bentuk hati atau emoji
-            const hearts = ['❤️', '💖', '🌸', '💕', '✨'];
-            heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
-            
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's'; // Antara 3-5 detik
-            heart.style.fontSize = Math.random() * 15 + 15 + 'px'; // Ukuran acak 15-30px
-            
-            container.appendChild(heart);
-
-            // Hapus elemen dari dom setelah animasi selesai biar HP ga nge-lag
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+        function backToEnvelope() {
+            const env = document.getElementById('env-box');
+            env.classList.remove('opening');
+            env.style.opacity = '';
+            document.getElementById('env-hint').style.opacity = '';
+            show('envelope-screen');
         }
     </script>
 </body>
