@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surat Spesial Buat Wibi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <style>
         * {
             box-sizing: border-box;
@@ -12,13 +16,14 @@
         }
 
         body {
-            background: linear-gradient(135deg, #e0f2fe, #bae6fd, #f0f9ff);
+            background: linear-gradient(135deg, #fef2f2, #fce7f3, #e0f2fe);
             min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            overflow: hidden;
+            position: relative;
         }
 
         .wrapper {
@@ -26,45 +31,57 @@
             width: 100%;
             max-width: 500px;
             padding: 20px;
+            z-index: 10;
         }
 
+        /* Tombol Start Glowing & Berdenyut */
         .start-btn {
-            background: linear-gradient(135deg, #38bdf8, #0284c7);
+            background: linear-gradient(135deg, #ec4899, #db2777);
             color: white;
             border: none;
-            padding: 15px 35px;
+            padding: 16px 40px;
             font-size: 1.1rem;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.3);
+            box-shadow: 0 10px 30px rgba(219, 39, 119, 0.4);
             transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 10px 30px rgba(219, 39, 119, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(219, 39, 119, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 10px 30px rgba(219, 39, 119, 0.4); }
         }
 
         .start-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(2, 132, 199, 0.4);
+            transform: translateY(-3px) scale(1.03);
         }
 
+        /* Container Amplop */
         .envelope-container {
             position: relative;
-            width: 300px;
-            height: 200px;
-            margin: 50px auto;
+            width: 320px;
+            height: 220px;
+            margin: 60px auto;
             cursor: pointer;
             perspective: 1000px;
+            display: inline-block;
         }
 
         .envelope {
             position: absolute;
             width: 100%;
             height: 100%;
-            background-color: #7dd3fc;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            background-color: #f472b6;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
             transition: transform 0.5s ease;
         }
 
+        /* Penutup Amplop Atas */
         .envelope::before {
             content: '';
             position: absolute;
@@ -72,24 +89,25 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-top: 100px solid #38bdf8;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 110px solid #db2777;
             transform-origin: top;
-            transition: transform 0.5s ease 0.5s;
+            transition: transform 0.5s ease 0.4s;
             z-index: 3;
         }
 
+        /* Lipatan Depan Amplop */
         .envelope-front {
             position: absolute;
             width: 0;
             height: 0;
-            border-left: 150px solid #e0f2fe;
-            border-right: 150px solid #e0f2fe;
-            border-bottom: 100px solid #bae6fd;
-            top: 100px;
+            border-left: 160px solid #fce7f3;
+            border-right: 160px solid #fce7f3;
+            border-bottom: 110px solid #fbcfe8;
+            top: 110px;
             z-index: 4;
-            border-radius: 0 0 10px 10px;
+            border-radius: 0 0 12px 12px;
         }
 
         .envelope-front::before {
@@ -97,10 +115,10 @@
             position: absolute;
             width: 0;
             height: 0;
-            border-left: 150px solid #bae6fd;
-            border-top: 100px solid transparent;
-            left: -150px;
-            top: -100px;
+            border-left: 160px solid #fbcfe8;
+            border-top: 110px solid transparent;
+            left: -160px;
+            top: -110px;
         }
 
         .envelope-front::after {
@@ -108,43 +126,49 @@
             position: absolute;
             width: 0;
             height: 0;
-            border-right: 150px solid #bae6fd;
-            border-top: 100px solid transparent;
-            right: -150px;
-            top: -100px;
+            border-right: 160px solid #fbcfe8;
+            border-top: 110px solid transparent;
+            right: -160px;
+            top: -110px;
         }
 
+        /* Kertas Surat Premium */
         .letter {
             position: absolute;
-            top: 10px;
+            top: 15px;
             left: 15px;
-            width: 270px;
-            height: 180px;
-            background-color: #ffffff;
+            width: 290px;
+            height: 190px;
+            background: #ffffff linear-gradient(rgba(24df,243,247,0) 96%, #f3f4f6 96%);
+            background-size: 100% 24px;
             border-radius: 8px;
-            padding: 20px;
+            padding: 25px 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             z-index: 2;
-            transition: transform 0.8s ease;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
         }
 
         .letter h2 {
-            font-size: 1.2rem;
-            color: #0369a1;
-            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #be185d;
+            margin-bottom: 12px;
+            font-weight: 600;
         }
 
         .letter p {
-            font-size: 1rem;
-            color: #334155;
-            line-height: 1.5;
-            font-style: italic;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            color: #4b5563;
+            line-height: 1.4;
+            text-align: center;
         }
 
+        /* Efek Animasi Kebuka */
         .envelope-container.open .envelope::before {
             transform: rotateX(180deg);
             z-index: 1;
@@ -152,11 +176,11 @@
         }
 
         .envelope-container.open .letter {
-            transform: translateY(-130px);
+            transform: translateY(-140px);
             z-index: 5;
-            height: 220px;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.15);
-            transition: transform 0.8s ease 0.5s, height 0.3s ease 1.3s;
+            height: 240px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transition: transform 0.8s ease 0.4s, height 0.3s ease 1.2s;
         }
 
         .hidden {
@@ -173,14 +197,36 @@
         }
 
         .instruction {
-            margin-top: 20px;
-            color: #0369a1;
-            font-size: 0.9rem;
+            margin-top: 30px;
+            color: #be185d;
+            font-size: 0.95rem;
             font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: opacity 0.3s ease;
+        }
+
+        /* CSS Efek Hati Melayang */
+        .heart {
+            position: absolute;
+            color: #f472b6;
+            font-size: 20px;
+            pointer-events: none;
+            animation: floatUp 4s linear infinite;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
+
+    <div id="heart-container"></div>
 
     <div class="wrapper">
         <div id="start-screen">
@@ -193,7 +239,7 @@
                 <div class="envelope-front"></div>
                 <div class="letter">
                     <h2>Dear Dedek Wibi guweh,</h2>
-                    <p>Baik baik ya disana</p>
+                    <p>Baik-baik ya di sana...<br>Jangan lupa makan, tetep semangat harinya! ❤️</p>
                 </div>
             </div>
             <p class="instruction" id="tap-text">Tap amplopnya buat buka surat ❤️</p>
@@ -208,11 +254,10 @@
         const music = document.getElementById('bg-music');
 
         function initWeb() {
-            // Memancing interaksi audio agar diizinkan sistem HP
             music.play().then(() => {
                 music.pause();
                 music.currentTime = 0;
-            }).catch(err => console.log("Audio unlock:", err));
+            }).catch(err => console.log("Audio unlocked:", err));
 
             document.getElementById('start-screen').classList.add('hidden');
             const mainScreen = document.getElementById('main-screen');
@@ -227,12 +272,36 @@
             envelope.classList.add('open');
             document.getElementById('tap-text').style.opacity = '0';
 
-            // Mainkan musik langsung saat transisi amplop dimulai
+            // Nyalakan musik pas amplop diklik
             music.play().catch(err => {
-                console.log("Play error, trying forced bypass:", err);
                 music.muted = false;
                 music.play();
             });
+
+            // Mulai munculin efek hati berjatuhan setelah amplop dibuka
+            setInterval(createHeart, 300);
+        }
+
+        // Fungsi pembuat efek hati melayang secara acak
+        function createHeart() {
+            const container = document.getElementById('heart-container');
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            
+            // Variasi bentuk hati atau emoji
+            const hearts = ['❤️', '💖', '🌸', '💕', '✨'];
+            heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's'; // Antara 3-5 detik
+            heart.style.fontSize = Math.random() * 15 + 15 + 'px'; // Ukuran acak 15-30px
+            
+            container.appendChild(heart);
+
+            // Hapus elemen dari dom setelah animasi selesai biar HP ga nge-lag
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
         }
     </script>
 </body>
