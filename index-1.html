@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Spesial Buat Wibi</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd, #f0f9ff);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .wrapper {
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #38bdf8, #0284c7);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(2, 132, 199, 0.4);
+        }
+
+        .envelope-container {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            margin: 50px auto;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #7dd3fc;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            transition: transform 0.5s ease;
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #38bdf8;
+            transform-origin: top;
+            transition: transform 0.5s ease 0.5s;
+            z-index: 3;
+        }
+
+        .envelope-front {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 150px solid #e0f2fe;
+            border-right: 150px solid #e0f2fe;
+            border-bottom: 100px solid #bae6fd;
+            top: 100px;
+            z-index: 4;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .envelope-front::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 150px solid #bae6fd;
+            border-top: 100px solid transparent;
+            left: -150px;
+            top: -100px;
+        }
+
+        .envelope-front::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-right: 150px solid #bae6fd;
+            border-top: 100px solid transparent;
+            right: -150px;
+            top: -100px;
+        }
+
+        .letter {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            width: 270px;
+            height: 180px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            z-index: 2;
+            transition: transform 0.8s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .letter h2 {
+            font-size: 1.2rem;
+            color: #0369a1;
+            margin-bottom: 10px;
+        }
+
+        .letter p {
+            font-size: 1rem;
+            color: #334155;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .envelope-container.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 1;
+            transition: transform 0.5s ease;
+        }
+
+        .envelope-container.open .letter {
+            transform: translateY(-130px);
+            z-index: 5;
+            height: 220px;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.15);
+            transition: transform 0.8s ease 0.5s, height 0.3s ease 1.3s;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .instruction {
+            margin-top: 20px;
+            color: #0369a1;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div id="start-screen">
+            <button class="start-btn" onclick="initWeb()">Klik Untuk Buka Kiriman ✨</button>
+        </div>
+
+        <div id="main-screen" class="hidden">
+            <div class="envelope-container" id="envelope-box" onclick="openEnvelope()">
+                <div class="envelope"></div>
+                <div class="envelope-front"></div>
+                <div class="letter">
+                    <h2>Dear Dedek Wibi guweh,</h2>
+                    <p>Baik baik ya disana</p>
+                </div>
+            </div>
+            <p class="instruction" id="tap-text">Tap amplopnya buat buka surat ❤️</p>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="https://files.catbox.moe/q9anbr.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function initWeb() {
+            document.getElementById('start-screen').classList.add('hidden');
+            const mainScreen = document.getElementById('main-screen');
+            mainScreen.classList.remove('hidden');
+            mainScreen.classList.add('fade-in');
+        }
+
+        function openEnvelope() {
+            const envelope = document.getElementById('envelope-box');
+            envelope.classList.add('open');
+            document.getElementById('tap-text').style.opacity = '0';
+
+            // Lagu nyala pas amplop dibuka
+            const music = document.getElementById('bg-music');
+            music.play().catch(err => console.log("Gagal putar:", err));
+        }
+    </script>
+</body>
+</html>
